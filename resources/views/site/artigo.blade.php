@@ -1,12 +1,12 @@
 @extends('site.layouts.main')
 
+@php($activeMenu = 'blog')
+
 @section('title', $postKey->Titulo . ' - Blog - Giusti Sistemas')
 
 @push('styles')
 <!-- Custom CSS -->
-<link rel="stylesheet" href="/css/site/styles.min.css">
-<link rel="stylesheet" href="/css/site/blog.min.css">
-<link rel="stylesheet" href="/css/site/artigo.min.css">
+@vite(['resources/css/site/blog.css', 'resources/css/site/artigo.css'])
 @endpush
 
 @section('content')
@@ -103,6 +103,4 @@
 @endsection
 
 @push('scripts')
-<!-- Custom JS -->
-<script src="/js/site/main.min.obf.js"></script>
 @endpush

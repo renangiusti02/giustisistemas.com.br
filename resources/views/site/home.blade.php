@@ -1,8 +1,9 @@
 @extends('site.layouts.main')
 
+@php($activeMenu = 'home')
+
 @push('styles')
 <!-- Custom CSS -->
-<link rel="stylesheet" href="/css/site/styles.min.css">
 @endpush
 
 @section('content')
@@ -355,6 +356,4 @@
 @endsection
 
 @push('scripts')
-<!-- Custom JS -->
-<script src="/js/site/main.min.obf.js"></script>
 @endpush

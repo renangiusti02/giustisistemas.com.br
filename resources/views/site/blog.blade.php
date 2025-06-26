@@ -1,11 +1,12 @@
 @extends('site.layouts.main')
 
+@php($activeMenu = 'blog')
+
 @section('title', 'Blog - Giusti Sistemas')
 
 @push('styles')
 <!-- Custom CSS -->
-<link rel="stylesheet" href="/css/site/styles.min.css">
-<link rel="stylesheet" href="/css/site/blog.min.css">
+@vite(['resources/css/site/blog.css'])
 @endpush
 
 @section('content')
@@ -82,7 +83,7 @@
                 <!-- Pagination -->
                 @if ($posts->hasPages())
                     <div class="d-flex justify-content-center" data-aos="fade-up">
-                        {{ $posts->links('partials.pagination') }}
+                        {{ $posts->links('site.partials.pagination') }}
                     </div>
                 @endif
             </div>
@@ -120,6 +121,4 @@
 @endsection
 
 @push('scripts')
-<!-- Custom JS -->
-<script src="/js/site/main.min.obf.js"></script>
 @endpush

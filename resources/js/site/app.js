@@ -1,42 +1,52 @@
-document.addEventListener('DOMContentLoaded', function() {
-    "use strict";
+// Importações
+import 'bootstrap'; // bootstrap + popper
+import $ from 'jquery';
+window.$ = $;
+window.jQuery = $;
 
-    /**
-     * Easy selector helper function
-     */
-    const select = (el, all = false) => {
-        el = el.trim();
+import Swiper from 'swiper/bundle';
+import 'swiper/css/bundle';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+// Funções auxiliares (do seu main.js)
+const select = (el, all = false) => {
+    el = el.trim();
+    if (all) {
+        return [...document.querySelectorAll(el)];
+    } else {
+        return document.querySelector(el);
+    }
+};
+
+const on = (type, el, listener, all = false) => {
+    let selectEl = select(el, all);
+    if (selectEl) {
         if (all) {
-            return [...document.querySelectorAll(el)];
+            selectEl.forEach(e => e.addEventListener(type, listener));
         } else {
-            return document.querySelector(el);
+            selectEl.addEventListener(type, listener);
         }
-    };
+    }
+};
 
-    /**
-     * Easy event listener function
-     */
-    const on = (type, el, listener, all = false) => {
-        let selectEl = select(el, all);
-        if (selectEl) {
-            if (all) {
-                selectEl.forEach(e => e.addEventListener(type, listener));
-            } else {
-                selectEl.addEventListener(type, listener);
-            }
-        }
-    };
+const onscroll = (el, listener) => {
+    el.addEventListener('scroll', listener);
+};
 
-    /**
-     * Easy on scroll event listener 
-     */
-    const onscroll = (el, listener) => {
-        el.addEventListener('scroll', listener);
-    };
+window.addEventListener('load', () => {
+    // AOS
+    AOS.init({
+        duration: 1000,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false,
+        disable: 'mobile',
+        offset: 100,
+    });
 
-    /**
-     * Navbar links active state on scroll
-     */
+    // Navbar links active state on scroll
     let navbarlinks = select('#navbarNav .nav-link', true);
     const navbarlinksActive = () => {
         let position = window.scrollY + 200;
@@ -51,16 +61,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     };
-    window.addEventListener('load', navbarlinksActive);
+    navbarlinksActive();
     onscroll(document, navbarlinksActive);
 
-    /**
-     * Scrolls to an element with header offset
-     */
+    // Scroll com offset
     const scrollto = (el) => {
         let header = select('#header');
         let offset = header.offsetHeight;
-
         let elementPos = select(el).offsetTop;
         window.scrollTo({
             top: elementPos - offset,
@@ -68,9 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    /**
-     * Toggle .header-scrolled class to #header when page is scrolled
-     */
+    // Toggle .header-scrolled
     let selectHeader = select('#header');
     if (selectHeader) {
         const headerScrolled = () => {
@@ -80,13 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectHeader.classList.remove('header-scrolled');
             }
         };
-        window.addEventListener('load', headerScrolled);
-        onscroll(document, headerScrolled);
+        headerScrolled();
+        window.addEventListener('scroll', headerScrolled);
     }
 
-    /**
-     * Back to top button
-     */
+    // Back to top button
     let backtotop = select('.back-to-top');
     if (backtotop) {
         const toggleBacktotop = () => {
@@ -96,20 +99,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 backtotop.classList.remove('active');
             }
         };
-        window.addEventListener('load', toggleBacktotop);
-        onscroll(document, toggleBacktotop);
+        toggleBacktotop();
+        window.addEventListener('scroll', toggleBacktotop);
     }
 
-    /**
-     * Mobile nav toggle
-     */
+    // Mobile nav toggle
     const navbarToggler = select('.navbar-toggler');
     const navbarCollapse = select('#navbarNav');
 
-    /**
-     * Close mobile menu when clicking on a nav-link or outside
-     */
-    const navLinks = select('#navbarNav .nav-link', true);
+    // Close mobile menu ao clicar nav-link
+    let navLinks = select('#navbarNav .nav-link', true);
     navLinks.forEach(navLink => {
         navLink.addEventListener('click', () => {
             if (navbarCollapse.classList.contains('show')) {
@@ -125,9 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    /**
-     * Scroll with offset on links with a class name .scrollto
-     */
+    // Scroll com offset para links .scrollto
     on('click', '.scrollto', function(e) {
         if (select(this.hash)) {
             e.preventDefault();
@@ -135,38 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, true);
 
-    /**
-     * Scroll with offset on page load with hash links in the url
-     */
-    window.addEventListener('load', () => {
-        if (window.location.hash) {
-            if (select(window.location.hash)) {
-                scrollto(window.location.hash);
-            }
+    // Scroll ao carregar página com hash
+    if (window.location.hash) {
+        if (select(window.location.hash)) {
+            scrollto(window.location.hash);
         }
-    });
+    }
 
-    /**
-     * Initialize AOS
-     */
-    AOS.init({
-        duration: 1000,
-        easing: 'ease-in-out',
-        once: true,
-        mirror: false,
-        disable: 'mobile',
-        startEvent: 'DOMContentLoaded',
-        offset: 100
-    });
-
-    // Reinicializa AOS quando o conteúdo dinâmico é carregado
-    document.addEventListener('DOMContentLoaded', function() {
-        AOS.refresh();
-    });
-
-    /**
-     * Initiate Testimonials slider
-     */
+    // Inicia Swiper testimonials
     new Swiper('.testimonials-slider', {
         speed: 600,
         loop: true,
@@ -192,12 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    /**
-     * Contact form validation and submission
-     */
-
+    // Validação formulário contato (se existir)
     function isValidEmail(email) {
-        // Validação simples de email
         return /\S+@\S+\.\S+/.test(email);
     }
 
@@ -210,31 +179,31 @@ document.addEventListener('DOMContentLoaded', function() {
             let errorMessage = contactForm.querySelector("#error-message");
             let sentMessage = contactForm.querySelector("#sent-message");
             let loadingMessage = contactForm.querySelector("#loading");
-    
+
             contactFormMessages.classList.remove("d-none");
             errorMessage.style.display = "none";
             sentMessage.style.display = "none";
             loadingMessage.style.display = "block";
-    
+
             let fullName = contactForm.querySelector("#fullName").value.trim();
             let email = contactForm.querySelector("#email").value.trim();
             let phone = contactForm.querySelector("#phone").value.trim();
             let message = contactForm.querySelector("#message").value.trim();
-    
+
             if (!fullName || !email || !phone || !message) {
                 alert("Por favor, preencha todos os campos.");
                 loadingMessage.style.display = "none";
                 errorMessage.style.display = "block";
                 return;
             }
-    
+
             if (!isValidEmail(email)) {
                 alert("Por favor, digite um email válido.");
                 loadingMessage.style.display = "none";
                 errorMessage.style.display = "block";
                 return;
             }
-    
+
             if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'localhost') {
                 grecaptcha.ready(function() {
                     grecaptcha.execute('6Lf1e1knAAAAAAgFvHDWXqOjWrwdIZl5i_450n3G', {action: 'submit'}).then(function(token) {
@@ -247,10 +216,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     function sendForm(contactForm, loadingMessage, errorMessage, sentMessage) {
         let formData = new FormData(contactForm);
-    
+
         fetch("/contact", {
             method: 'POST',
             body: formData,
@@ -265,16 +234,13 @@ document.addEventListener('DOMContentLoaded', function() {
             sentMessage.style.display = "block";
             sentMessage.textContent = data.message || "Mensagem enviada.";
             contactForm.reset();
-    
-            // Atualiza o token CSRF, se necessário
+
             let newToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             document.querySelector('input[name="_token"]').value = newToken;
         })
         .catch(error => {
             errorMessage.style.display = "block";
-    
             if (error.errors) {
-                // Erros de validação do Laravel (status 422)
                 errorMessage.textContent = Object.values(error.errors).flat().join(' ');
             } else if (error.message) {
                 errorMessage.textContent = error.message;
@@ -283,4 +249,5 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
 });

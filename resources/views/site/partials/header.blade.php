@@ -11,7 +11,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active scrollto" href="/#hero">Início</a>
+                        <a class="nav-link scrollto{{ ($activeMenu === 'home') ? ' active' : '' }}" href="/#hero">Início</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link scrollto" href="/#sobre">Sobre</a>
@@ -29,7 +29,7 @@
                         <a class="nav-link scrollto" href="/#contato">Contato</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link scrollto" href="/blog">Blog</a>
+                        <a class="nav-link scrollto{{ ($activeMenu === 'blog') ? ' active' : '' }}" href="/blog">Blog</a>
                     </li>
                 </ul>
             </div>

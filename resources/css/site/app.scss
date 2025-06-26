@@ -1,6 +1,16 @@
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Font Awesome
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+// AOS (Animation On Scroll)
+@import "aos/dist/aos.css";
+
 /*--------------------------------------------------------------
 # General
---------------------------------------------------------------*/:root {
+--------------------------------------------------------------*/
+:root {
     --primary-color:#4374ff;
     --secondary-color:#2a4cad;
     --light-color:#f8f9fa;

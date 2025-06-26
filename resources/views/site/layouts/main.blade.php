@@ -5,7 +5,7 @@
     @stack('styles')
 </head>
 <body>
-    @include('site.partials.header')
+    @include('site.partials.header', ['activeMenu' => $activeMenu ?? null])
 
     @yield('content')
 
