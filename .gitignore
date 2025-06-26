@@ -1,3 +1,4 @@
+**/*.Identifier
 *.log
 .DS_Store
 .env
