@@ -9,8 +9,8 @@
 <title>@yield('title', 'Giusti Sistemas - Soluções digitais personalizadas para o seu negócio')</title>
 
 <!-- Favicon -->
-<link rel="icon" type="image/png" href="/img/site/favicon.png">
-<link rel="apple-touch-icon" href="/img/site/favicon.png">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="/favicon.ico" type="image/x-icon">
 
 @vite(['resources/css/site/app.scss', 'resources/js/site/app.js'])
 
